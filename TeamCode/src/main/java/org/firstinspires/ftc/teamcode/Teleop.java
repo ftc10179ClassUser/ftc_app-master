@@ -12,7 +12,6 @@ public class Teleop extends OpMode {
     DcMotor frontRight;
     DcMotor backLeft;
     DcMotor backRight;
-    DcMotor mineralPickup;
 
     @Override
     public void init() {
