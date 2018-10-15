@@ -10,12 +10,20 @@ import org.firstinspires.ftc.teamcode.WheelController;
 @TeleOp(name = "Tech Turtles TeleOp")
 
 public class Teleop extends OpMode {
+    double encoderMax = 0;
+    double encoderMin = 0;
+    double tiltLiftEncoder = 0;
+    double tiltSpeed = 20;
+
+    DcMotor tiltLift;
+
     WheelController wheelController;
 
     @Override
     public void init() {
-        // Normally we would initialise the motors here, but our motor controller class does that for us and we just have to instantiate it.
-        wheelController = new WheelController();
+        // Normally we would initialise the wheel motors here, but our motor controller class does that for us
+        wheelController = new WheelController(hardwareMap);
+        // Initialize everything else
     }
 
     @Override
@@ -36,9 +44,37 @@ public class Teleop extends OpMode {
         double v4 = r * Math.cos(robotAngle) - rightX;
 
         // Finally, take the math we did for the speed of the wheels and actually set the wheel's speed
-        WheelController.frontLeft.setPower(v1);
-        WheelController.frontRight.setPower(v2);
-        WheelController.backLeft.setPower(v3);
-        WheelController.backRight.setPower(v4);
+        wheelController.frontLeft.setPower(v1);
+        wheelController.frontRight.setPower(v2);
+        wheelController.backLeft.setPower(v3);
+        wheelController.backRight.setPower(v4);
+
+        if (gamepad1.left_bumper) {
+            encoderMin -= 10;
+        }
+        if (gamepad1.right_bumper) {
+            encoderMin += 10;
+        }
+        if (gamepad1.left_trigger > 0.5) {
+            encoderMax -= 10;
+        }
+        if (gamepad1.right_trigger > 0.5) {
+            encoderMax += 10;
+        }
+
+        if (gamepad1.a) {
+            tiltLiftEncoder += tiltSpeed;
+        } else if (gamepad1.b) {
+            tiltLiftEncoder -= tiltSpeed;
+        }
+
+        if (tiltLiftEncoder > encoderMax) {
+            tiltLiftEncoder = encoderMax;
+        } else if (tiltLiftEncoder < encoderMin) {
+            tiltLiftEncoder = encoderMin;
+        }
+
+        telemetry.addData("Encoder Min", encoderMin);
+        telemetry.addData("Encoder Max", encoderMax);
     }
 }

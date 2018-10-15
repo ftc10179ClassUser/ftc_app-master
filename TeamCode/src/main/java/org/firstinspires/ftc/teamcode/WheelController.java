@@ -5,15 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.WheelController;
 
-public class WheelController extends LinearOpMode {
+public class WheelController {
 
-    public static DcMotor frontLeft;
-    public static DcMotor frontRight;
-    public static DcMotor backLeft;
-    public static DcMotor backRight;
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
 
     public void moveXY(double x, double y) {
         // The speed at which we will move the robot
@@ -36,13 +37,14 @@ public class WheelController extends LinearOpMode {
     }
 
     public void moveTurn(double speed) {
+        // Just a simple tank turn, left goes forward and right goes backward
         frontLeft.setPower(speed);
         frontRight.setPower(-speed);
         backLeft.setPower(speed);
         backLeft.setPower(-speed);
     }
 
-    WheelController() {
+    WheelController(HardwareMap hardwareMap) {
         // When the wheel controller is instantiated, it gets the motors and sets them up
         frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
@@ -51,10 +53,5 @@ public class WheelController extends LinearOpMode {
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-    }
-
-    @Override
-    public void runOpMode() throws InterruptedException {
-
     }
 }
