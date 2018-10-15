@@ -5,38 +5,28 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.teamcode.WheelController;
+
 @TeleOp(name = "Tech Turtles TeleOp")
 
 public class Teleop extends OpMode {
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor backLeft;
-    DcMotor backRight;
+    WheelController wheelController;
 
     @Override
     public void init() {
-        // Initialise motors
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        frontRight = hardwareMap.dcMotor.get("frontRight");
-        backLeft = hardwareMap.dcMotor.get("backLeft");
-        backRight = hardwareMap.dcMotor.get("backRight");
-
-
-        // Reverse all motors on the left side
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        // Normally we would initialise the motors here, but our motor controller class does that for us and we just have to instantiate it.
+        wheelController = new WheelController();
     }
 
     @Override
     public void loop() {
-
         // The distance from the joystick's position to the joystick's origin
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
 
-        // The angle at which the will mve the robot
+        // The angle at which the will move the robot
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
 
-        // Let's make the right joystick's x position a variable so we don't have to type muc
+        // Let's make the right joystick's x position a variable so it doesn't change as we are doing calculations
         double rightX = gamepad1.right_stick_x;
 
         // Do the calculations for the wheel speeds
@@ -46,9 +36,9 @@ public class Teleop extends OpMode {
         double v4 = r * Math.cos(robotAngle) - rightX;
 
         // Finally, take the math we did for the speed of the wheels and actually set the wheel's speed
-        frontLeft.setPower(v1);
-        frontRight.setPower(v2);
-        backLeft.setPower(v3);
-        backRight.setPower(v4);
+        WheelController.frontLeft.setPower(v1);
+        WheelController.frontRight.setPower(v2);
+        WheelController.backLeft.setPower(v3);
+        WheelController.backRight.setPower(v4);
     }
 }
