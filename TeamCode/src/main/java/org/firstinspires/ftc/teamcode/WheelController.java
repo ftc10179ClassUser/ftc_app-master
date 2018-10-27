@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.WheelController;
 
@@ -16,7 +17,11 @@ public class WheelController {
     public DcMotor backLeft;
     public DcMotor backRight;
 
-    public void moveXY(double x, double y) {
+    public void moveXY(double tx, double ty) {
+        double x = Range.clip(tx, -1, 1);
+        double y = Range.clip(ty, -1, 1);
+
+
         // The speed at which we will move the robot
         double r = Math.hypot(-x, y);
 
@@ -36,12 +41,17 @@ public class WheelController {
         backRight.setPower(v4);
     }
 
-    public void moveTurn(double speed) {
+    public void moveTurn(double tspeed) {
+        double speed = Range.clip(tspeed, -1, 1);
         // Just a simple tank turn, left goes forward and right goes backward
         frontLeft.setPower(speed);
         frontRight.setPower(-speed);
         backLeft.setPower(speed);
         backLeft.setPower(-speed);
+    }
+
+    public void stopWheels() {
+        moveXY(0,0);
     }
 
     WheelController(HardwareMap hardwareMap) {

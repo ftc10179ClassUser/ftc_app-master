@@ -13,7 +13,7 @@ public class Teleop extends OpMode {
     double encoderMax = 0;
     double encoderMin = 0;
     double tiltLiftEncoder = 0;
-    double tiltSpeed = 20;
+    double tiltLiftSpeed = 20;
 
     DcMotor tiltLift;
 
@@ -24,6 +24,8 @@ public class Teleop extends OpMode {
         // Normally we would initialise the wheel motors here, but our motor controller class does that for us
         wheelController = new WheelController(hardwareMap);
         // Initialize everything else
+        tiltLift = hardwareMap.dcMotor.get("tiltLift");
+        tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
     @Override
@@ -63,9 +65,9 @@ public class Teleop extends OpMode {
         }
 
         if (gamepad1.a) {
-            tiltLiftEncoder += tiltSpeed;
+            tiltLiftEncoder += tiltLiftSpeed;
         } else if (gamepad1.b) {
-            tiltLiftEncoder -= tiltSpeed;
+            tiltLiftEncoder -= tiltLiftSpeed;
         }
 
         if (tiltLiftEncoder > encoderMax) {
@@ -73,6 +75,8 @@ public class Teleop extends OpMode {
         } else if (tiltLiftEncoder < encoderMin) {
             tiltLiftEncoder = encoderMin;
         }
+
+        tiltLift.setTargetPosition((int)tiltLiftEncoder);
 
         telemetry.addData("Encoder Min", encoderMin);
         telemetry.addData("Encoder Max", encoderMax);
