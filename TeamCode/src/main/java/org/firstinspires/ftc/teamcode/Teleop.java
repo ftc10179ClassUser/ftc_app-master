@@ -4,18 +4,22 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.WheelController;
 
 @TeleOp(name = "Tech Turtles TeleOp")
 
 public class Teleop extends OpMode {
-    double encoderMax = 0;
-    double encoderMin = 0;
-    double tiltLiftEncoder = 0;
-    double tiltLiftSpeed = 20;
+    int tiltEncoderMax = 0;
+    int tiltEncoderMin = 0;
+    int tiltLiftEncoder = 0;
+    int tiltLiftSpeed = 20;
 
-    DcMotor tiltLift;
+    SMotor tiltLift;
+
+    Servo liftLock;
+    Servo tiltDump;    
 
     WheelController wheelController;
 
@@ -24,8 +28,17 @@ public class Teleop extends OpMode {
         // Normally we would initialise the wheel motors here, but our motor controller class does that for us
         wheelController = new WheelController(hardwareMap);
         // Initialize everything else
-        tiltLift = hardwareMap.dcMotor.get("tiltLift");
+        liftLock = hardwareMap.servo.get("liftLock");
+        tiltDump = hardwareMap.servo.get("tiltDump");
+        tiltLift = new SMotor(hardwareMap.dcMotor.get("tiltLift"));
         tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //tiltLift.calibrate();
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        tiltLift.calibrate();
     }
 
     @Override
@@ -37,7 +50,7 @@ public class Teleop extends OpMode {
         double robotAngle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) - Math.PI / 4;
 
         // Let's make the right joystick's x position a variable so it doesn't change as we are doing calculations
-        double rightX = gamepad1.right_stick_x;
+        double rightX = -gamepad1.right_stick_x;
 
         // Do the calculations for the wheel speeds
         double v1 = r * Math.cos(robotAngle) + rightX;
@@ -51,17 +64,18 @@ public class Teleop extends OpMode {
         wheelController.backLeft.setPower(v3);
         wheelController.backRight.setPower(v4);
 
+
         if (gamepad1.left_bumper) {
-            encoderMin -= 10;
+            tiltEncoderMin -= 10;
         }
         if (gamepad1.right_bumper) {
-            encoderMin += 10;
+            tiltEncoderMin += 10;
         }
         if (gamepad1.left_trigger > 0.5) {
-            encoderMax -= 10;
+            tiltEncoderMax -= 10;
         }
         if (gamepad1.right_trigger > 0.5) {
-            encoderMax += 10;
+            tiltEncoderMax += 10;
         }
 
         if (gamepad1.a) {
@@ -70,15 +84,24 @@ public class Teleop extends OpMode {
             tiltLiftEncoder -= tiltLiftSpeed;
         }
 
-        if (tiltLiftEncoder > encoderMax) {
-            tiltLiftEncoder = encoderMax;
-        } else if (tiltLiftEncoder < encoderMin) {
-            tiltLiftEncoder = encoderMin;
+        if (tiltLiftEncoder > tiltEncoderMax) {
+            tiltLiftEncoder = tiltEncoderMax;
+        } else if (tiltLiftEncoder < tiltEncoderMin) {
+            tiltLiftEncoder = tiltEncoderMin;
         }
 
-        tiltLift.setTargetPosition((int)tiltLiftEncoder);
+        if (gamepad1.x) {
+            tiltLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
 
-        telemetry.addData("Encoder Min", encoderMin);
-        telemetry.addData("Encoder Max", encoderMax);
+        tiltLift.setTargetPosition(tiltLiftEncoder);
+
+        telemetry.addData("Current Encoder", tiltLift.getCurrentPosition());
+        telemetry.addData("Encoder", tiltLiftEncoder);
+        telemetry.addData("Encoder Min", tiltEncoderMin);
+        telemetry.addData("Encoder Max", tiltEncoderMax);
+
+        tiltLift.update();
     }
 }

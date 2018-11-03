@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class SimpleAutonomousCrater extends LinearOpMode {
     WheelController wheelController;
 
-    Servo latchLock;
     Servo liftLock;
     DcMotor tiltLift;
 
@@ -18,7 +17,6 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         // Initialize wheels
         wheelController = new WheelController(hardwareMap);
 
-        latchLock = hardwareMap.servo.get("latchLock");
         liftLock = hardwareMap.servo.get("liftLock");
         tiltLift = hardwareMap.dcMotor.get("tiltLift");
 
@@ -29,8 +27,6 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         sleep(1000);
         tiltLift.setTargetPosition(100);
         sleep(3000);
-        latchLock.setPosition(0);
-        sleep(1000);
 
         wheelController.moveXY(0,-1);
         sleep(2000);

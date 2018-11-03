@@ -8,8 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.WheelController;
-
 public class WheelController {
 
     public DcMotor frontLeft;
@@ -18,7 +16,7 @@ public class WheelController {
     public DcMotor backRight;
 
     public void moveXY(double tx, double ty) {
-        double x = Range.clip(tx, -1, 1);
+        double x = -Range.clip(tx, -1, 1);
         double y = Range.clip(ty, -1, 1);
 
 
@@ -61,7 +59,7 @@ public class WheelController {
         backLeft = hardwareMap.dcMotor.get("backLeft");
         backRight = hardwareMap.dcMotor.get("backRight");
 
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 }
