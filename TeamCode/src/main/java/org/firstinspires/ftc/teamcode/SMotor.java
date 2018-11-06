@@ -1,20 +1,26 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.util.Range;
 
+import static java.lang.Thread.sleep;
+
 public class SMotor {
     private DcMotor motor;
+
+    private LinearOpMode opMode;
 
     private int startingPos;
     private int currentSpeed;
     private int stage = 0;
-    private int threshhold = 3;
-    private int slowLength = 50;
+    private int threshhold = 100;
+    private int slowLength = 30;
     private int goToPosition = 0;
-    private double positiveCalibration = 0.5;
-    private double negativeCalibration = -0.5;
+    private double positiveCalibration = 0;
+    private double negativeCalibration = 0;
 
     private static final DcMotor.RunMode RUN_TO_POSITION = DcMotor.RunMode.RUN_TO_POSITION;
     private static final DcMotor.RunMode RUN_WITHOUT_ENCODER = DcMotor.RunMode.RUN_WITHOUT_ENCODER;
@@ -22,12 +28,13 @@ public class SMotor {
     private static final DcMotor.RunMode STOP_AND_RESET_ENCODER = DcMotor.RunMode.STOP_AND_RESET_ENCODER;
 
     public boolean isAtPosition = true;
-    public boolean alreadyCalibrated = false;
+    public boolean alreadyCalibrated = true;
 
     DcMotor.RunMode mode = DcMotor.RunMode.RUN_USING_ENCODER;
 
-    SMotor(DcMotor tempMotor) {
+    SMotor(DcMotor tempMotor, LinearOpMode tempOpMode) {
         motor = tempMotor;
+        opMode = tempOpMode;
     }
 
     public void setPower(double power) {
@@ -102,15 +109,15 @@ public class SMotor {
 
                     if (isAtPosition) {
                         if (Math.abs(positiveCalibration) > Math.abs(negativeCalibration)) {
-                            motor.setPower(positiveCalibration - 0.05);
+                            motor.setPower(positiveCalibration);
                         } else {
-                            motor.setPower(negativeCalibration + 0.05);
+                            motor.setPower(negativeCalibration);
                         }
                     } else {
                         if (motor.getCurrentPosition() < goToPosition) {
-                            motor.setPower(Range.clip((Math.abs(motor.getCurrentPosition() - goToPosition) + positiveCalibration) / slowLength, -1, 1));
+                            motor.setPower(Range.clip(((Math.abs(motor.getCurrentPosition() - goToPosition)-threshhold) / slowLength) + positiveCalibration, 0, 1));
                         } else {
-                            motor.setPower(Range.clip(-(Math.abs(motor.getCurrentPosition() - goToPosition) + negativeCalibration) / slowLength, -1, 1));
+                            motor.setPower(Range.clip((-(Math.abs(motor.getCurrentPosition() - goToPosition)-threshhold) / slowLength) + negativeCalibration, -1, 0));
                         }
                     }
                     break;
@@ -131,7 +138,7 @@ public class SMotor {
                     break;
             }
         } else {
-            calibrate();
+            //calibrate();
         }
     }
 }

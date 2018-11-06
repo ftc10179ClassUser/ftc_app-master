@@ -31,12 +31,11 @@ public class Teleop extends LinearOpMode {
         // Initialize everything else
         liftLock = hardwareMap.servo.get("liftLock");
         tiltDump = hardwareMap.servo.get("tiltDump");
-        tiltLift = new SMotor(hardwareMap.dcMotor.get("tiltLift"));
+        tiltLift = new SMotor(hardwareMap.dcMotor.get("tiltLift"), this);
         tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         //tiltLift.calibrate();
 
         waitForStart();
-
         while (opModeIsActive()) {
             // The distance from the joystick's position to the joystick's origin
             double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
