@@ -15,9 +15,9 @@ public class Teleop extends LinearOpMode {
     int tiltEncoderMax = 0;
     int tiltEncoderMin = 0;
     int tiltLiftEncoder = 0;
-    int tiltLiftSpeed = 20;
+    int tiltLiftSpeed = 1;
 
-    SMotor tiltLift;
+    DcMotor tiltLift;
 
     Servo liftLock;
     Servo tiltDump;    
@@ -31,8 +31,7 @@ public class Teleop extends LinearOpMode {
         // Initialize everything else
         liftLock = hardwareMap.servo.get("liftLock");
         tiltDump = hardwareMap.servo.get("tiltDump");
-        tiltLift = new SMotor(hardwareMap.dcMotor.get("tiltLift"), this);
-        tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        tiltLift = hardwareMap.dcMotor.get("tiltLift");
         //tiltLift.calibrate();
 
         waitForStart();
@@ -58,45 +57,15 @@ public class Teleop extends LinearOpMode {
             wheelController.backLeft.setPower(v3);
             wheelController.backRight.setPower(v4);
 
-
-            if (gamepad1.left_bumper) {
-                tiltEncoderMin -= 10;
-            }
-            if (gamepad1.right_bumper) {
-                tiltEncoderMin += 10;
-            }
-            if (gamepad1.left_trigger > 0.5) {
-                tiltEncoderMax -= 10;
-            }
-            if (gamepad1.right_trigger > 0.5) {
-                tiltEncoderMax += 10;
-            }
-
-            if (gamepad1.a) {
-                tiltLiftEncoder += tiltLiftSpeed;
+            if (gamepad1.a && gamepad1.b) {
+                tiltLift.setPower(0);
+            } else if (gamepad1.a) {
+                tiltLift.setPower(tiltLiftSpeed);
             } else if (gamepad1.b) {
-                tiltLiftEncoder -= tiltLiftSpeed;
+                tiltLift.setPower(-tiltLiftSpeed);
+            } else {
+                tiltLift.setPower(0);
             }
-
-            if (tiltLiftEncoder > tiltEncoderMax) {
-                tiltLiftEncoder = tiltEncoderMax;
-            } else if (tiltLiftEncoder < tiltEncoderMin) {
-                tiltLiftEncoder = tiltEncoderMin;
-            }
-
-            if (gamepad1.x) {
-                tiltLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            }
-
-            tiltLift.setTargetPosition(tiltLiftEncoder);
-
-            telemetry.addData("Current Encoder", tiltLift.getCurrentPosition());
-            telemetry.addData("Encoder", tiltLiftEncoder);
-            telemetry.addData("Encoder Min", tiltEncoderMin);
-            telemetry.addData("Encoder Max", tiltEncoderMax);
-
-            tiltLift.update();
         }
     }
 }

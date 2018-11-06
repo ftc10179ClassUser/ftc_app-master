@@ -16,8 +16,8 @@ public class SMotor {
     private int startingPos;
     private int currentSpeed;
     private int stage = 0;
-    private int threshhold = 100;
-    private int slowLength = 30;
+    private int threshhold = 10;
+    private int slowLength = 100;
     private int goToPosition = 0;
     private double positiveCalibration = 0;
     private double negativeCalibration = 0;
@@ -41,6 +41,10 @@ public class SMotor {
         if (mode == RUN_WITHOUT_ENCODER || mode == RUN_USING_ENCODER) {
             motor.setPower(Range.clip(power, -1, 1));
         }
+    }
+
+    public void setDirection(DcMotor.Direction dir) {
+        motor.setDirection(dir);
     }
 
     public boolean isBusy() {
