@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.WheelController;
 
@@ -18,9 +19,13 @@ public class Teleop extends LinearOpMode {
     int tiltLiftSpeed = 1;
 
     DcMotor tiltLift;
-
+    DcMotor mineralExtend;
+    Servo mineralBlocker;
+    DcMotor mineralTilter;
+    DcMotor snorfler;
     Servo liftLock;
-    Servo tiltDump;    
+    Servo tiltDump;
+    DcMotor mineralLift;
 
     WheelController wheelController;
 
@@ -32,6 +37,12 @@ public class Teleop extends LinearOpMode {
         liftLock = hardwareMap.servo.get("liftLock");
         tiltDump = hardwareMap.servo.get("tiltDump");
         tiltLift = hardwareMap.dcMotor.get("tiltLift");
+
+        mineralTilter = hardwareMap.dcMotor.get("mineralTilter");
+        mineralExtend = hardwareMap.dcMotor.get("mineralExtend");
+        mineralBlocker = hardwareMap.servo.get("mineralBlocker");
+        snorfler = hardwareMap.dcMotor.get("snorfler");
+
         //tiltLift.calibrate();
 
         waitForStart();
@@ -57,15 +68,46 @@ public class Teleop extends LinearOpMode {
             wheelController.backLeft.setPower(v3);
             wheelController.backRight.setPower(v4);
 
-            if (gamepad1.a && gamepad1.b) {
-                tiltLift.setPower(0);
-            } else if (gamepad1.a) {
-                tiltLift.setPower(tiltLiftSpeed);
-            } else if (gamepad1.b) {
-                tiltLift.setPower(-tiltLiftSpeed);
+            if (Math.abs(gamepad2.right_stick_y) >= 0.05) {
+                tiltLift.setPower(gamepad2.right_stick_y);
             } else {
                 tiltLift.setPower(0);
             }
+
+            if (Math.abs(gamepad2.left_stick_y) >= 0.05) {
+                mineralExtend.setPower(gamepad2.left_stick_y);
+            } else {
+                mineralExtend.setPower(0);
+            }
+
+            float tilterSpeed = Range.clip(gamepad2.left_trigger - gamepad2.right_trigger, -1, 1);
+            if (Math.abs(tilterSpeed) >= 0.05) {
+                mineralTilter.setPower(tilterSpeed);
+            } else {
+                mineralTilter.setPower(0);
+            }
+
+
+            if (gamepad2.right_bumper) {
+                snorfler.setPower(1);
+            } else if (gamepad2.left_bumper) {
+                snorfler.setPower(-1);
+            } else {
+                snorfler.setPower(0);
+            }
+
+            if (gamepad2.a) {
+                mineralBlocker.setPosition(0);
+            } else if (gamepad2.b) {
+                mineralBlocker.setPosition(0.5);
+            }
+
+            if (gamepad2.x) {
+                tiltDump.setPosition(0);
+            } else if (gamepad2.y){
+                tiltDump.setPosition(0.5);
+            }
+
         }
     }
 }
