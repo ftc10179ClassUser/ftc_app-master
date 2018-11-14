@@ -97,15 +97,21 @@ public class Teleop extends LinearOpMode {
             }
 
             if (gamepad2.a) {
-                mineralBlocker.setPosition(0);
+                mineralBlocker.setPosition(0.7);
             } else if (gamepad2.b) {
                 mineralBlocker.setPosition(0.5);
             }
 
             if (gamepad2.x) {
-                tiltDump.setPosition(0);
+                tiltDump.setPosition(0.05);
             } else if (gamepad2.y){
-                tiltDump.setPosition(0.5);
+                tiltDump.setPosition(0.6);
+            }
+
+            if (gamepad1.a) {
+                liftLock.setPosition(0);
+            } else if (gamepad1.b) {
+                liftLock.setPosition(1);
             }
 
         }

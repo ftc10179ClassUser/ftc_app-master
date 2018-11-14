@@ -23,16 +23,16 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         tiltLift.setDirection(DcMotorSimple.Direction.REVERSE);
         liftLock.setPosition(1);
-        tiltLift.setTargetPosition(-570);
+        tiltLift.setTargetPosition(7640);
 
         waitForStart();
 
         tiltLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         liftLock.setPosition(0);
         sleep(1000);
-        tiltLift.setTargetPosition(7640);
+        tiltLift.setTargetPosition(-570);
         while (!tiltLift.isAtPosition) {
-
+            tiltLift.update();
         }
 
         wheelController.moveXY(0,-1);
