@@ -14,6 +14,28 @@ public class WheelController {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    public TickRatio frontRightTick;
+    public TickRatio frontLeftTick;
+    public TickRatio backLeftTick;
+    public TickRatio backRightTick;
+
+    public int leftEncoder() {
+        return frontLeft.getCurrentPosition();
+    }
+
+    public int rightEncoder() {
+        return frontRight.getCurrentPosition();
+    }
+
+    public void resetLeftEncoder() {
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void resetRightEncoder() {
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
     public void moveXY(double tx, double ty) {
         double x = -Range.clip(tx, -1, 1);
@@ -61,5 +83,8 @@ public class WheelController {
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontLeftTick = new TickRatio(frontLeft);
+
     }
 }

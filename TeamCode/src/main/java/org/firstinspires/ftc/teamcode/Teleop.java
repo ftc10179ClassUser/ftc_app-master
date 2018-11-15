@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -24,6 +25,7 @@ public class Teleop extends LinearOpMode {
     DcMotor mineralTilter;
     DcMotor snorfler;
     Servo liftLock;
+    ColorSensor colorSensor;
     Servo tiltDump;
     DcMotor mineralLift;
 
@@ -42,6 +44,7 @@ public class Teleop extends LinearOpMode {
         mineralExtend = hardwareMap.dcMotor.get("mineralExtend");
         mineralBlocker = hardwareMap.servo.get("mineralBlocker");
         snorfler = hardwareMap.dcMotor.get("snorfler");
+        colorSensor = hardwareMap.colorSensor.get("color");
 
         //tiltLift.calibrate();
 
@@ -113,6 +116,14 @@ public class Teleop extends LinearOpMode {
             } else if (gamepad1.b) {
                 liftLock.setPosition(1);
             }
+
+            telemetry.addData("alpha:", colorSensor.alpha());
+            telemetry.addData("red:", colorSensor.red());
+            telemetry.addData("green:", colorSensor.green());
+            telemetry.addData("blue:", colorSensor.blue());
+            telemetry.addData("motor device name:", tiltLift.getDeviceName());
+
+            telemetry.update();
 
         }
     }
