@@ -14,6 +14,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    Servo mineralBlocker;
     boolean yeetle = false;
     double diff;
     double doublealpha;
@@ -35,6 +36,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
         frontRight = hardwareMap.dcMotor.get("frontRight");
         //mineralTilter = hardwareMap.dcMotor.get("mineralTilter");
         backLeft = hardwareMap.dcMotor.get("backLeft");
+        mineralBlocker = hardwareMap.servo.get("mineralBlocker");
         backRight = hardwareMap.dcMotor.get("backRight");
         tiltDump = hardwareMap.servo.get("tiltDump");
         tiltLift.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -89,8 +91,8 @@ public class SimpleAutonomousDepot extends LinearOpMode {
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
             if (diff >= 2.5){
-                frontLeft.setPower(-0.22);
-                frontRight.setPower(0.22);
+                frontLeft.setPower(-0.225);
+                frontRight.setPower(0.225);
                 backLeft.setPower(-0.25);
                 backRight.setPower(0.25);
 
@@ -99,11 +101,11 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
             } else {
                 yeetle = true;
-                if(getRuntime() >= 13 && getRuntime() <= 15) {
+                if(getRuntime() >= 11 && getRuntime() <= 14) {
                     position = 2;
-                } else if(getRuntime() >= 12 || getRuntime()<= 17) {
+                } else if(getRuntime() >= 17 || getRuntime()<= 19) {
                     position = 1;
-                } else if(getRuntime() >= 3 && getRuntime() <= 5) {
+                } else if(getRuntime() >= 4 && getRuntime() <= 7) {
                     position = 3;
                 }
             }
@@ -114,7 +116,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
             telemetry.update();
 
         }
-
+        telemetry.addData("ree", position);
         sleep(500);
         frontLeft.setPower(0.25);
         frontRight.setPower(-0.25);
@@ -140,24 +142,30 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
         switch (position) {
             case 1:
-                wheelController.moveTurn(1);
-                sleep(2500);
-                break;
-            case 2:
-                frontLeft.setPower(0.5);
-                backLeft.setPower(0.5);
+                /*frontLeft.setPower(0.5);
+                backLeft.setPower(-0.5);
                 frontRight.setPower(-0.5);
-                backRight.setPower(-0.5);
+                backRight.setPower(0.5);
                 sleep(2500);
+                break;*/
+            case 2:
+
+
                 break;
             case 3:
-                wheelController.moveTurn(-1);
+                /*frontLeft.setPower(0.5);
+                backLeft.setPower(-0.5);
+                frontRight.setPower(-0.5);
+                backRight.setPower(0.5);
                 sleep(2500);
-                break;
+                break;*/
 
         }
+        mineralTilter.setPower(0.25);
 
-        tiltDump.setPosition(0.6);
+        sleep(600);
+        mineralTilter.setPower(0);
+        mineralBlocker.setPosition(0.6);
         sleep(500);
     }
 }
