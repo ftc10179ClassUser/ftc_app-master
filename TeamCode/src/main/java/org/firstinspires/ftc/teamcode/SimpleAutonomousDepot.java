@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "Crater")
-public class SimpleAutonomousCrater extends LinearOpMode {
+@Autonomous(name = "Depot")
+public class SimpleAutonomousDepot extends LinearOpMode {
     WheelController wheelController;
     public DcMotor frontLeft;
     public DcMotor frontRight;
@@ -23,6 +23,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
     SMotor tiltLift;
     ColorSensor colorSensor;
     DcMotor mineralTilter;
+    int position;
     @Override
     public void runOpMode() throws InterruptedException {
         // Initialize wheels
@@ -98,6 +99,13 @@ public class SimpleAutonomousCrater extends LinearOpMode {
 
             } else {
                 yeetle = true;
+                if(getRuntime() >= 13 && getRuntime() <= 15) {
+                    position = 2;
+                } else if(getRuntime() >= 12 || getRuntime()<= 17) {
+                    position = 1;
+                } else if(getRuntime() >= 3 && getRuntime() <= 5) {
+                    position = 3;
+                }
             }
 
             telemetry.addData("alpha", colorSensor.alpha());
@@ -115,9 +123,41 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         sleep(1250);
         wheelController.stopWheels();
         sleep(500);
-        wheelController.moveXY(0, -1);
-        sleep(1000);
+        wheelController.moveXY(0, -0.25);
+        switch (position) {
+            case 1:
+                sleep(2500);
+                break;
+            case 2:
+                sleep(3000);
+                break;
+            case 3:
+                sleep(2500);
+                break;
+        }
+
         wheelController.stopWheels();
 
+        switch (position) {
+            case 1:
+                wheelController.moveTurn(1);
+                sleep(2500);
+                break;
+            case 2:
+                frontLeft.setPower(0.5);
+                backLeft.setPower(0.5);
+                frontRight.setPower(-0.5);
+                backRight.setPower(-0.5);
+                sleep(2500);
+                break;
+            case 3:
+                wheelController.moveTurn(-1);
+                sleep(2500);
+                break;
+
+        }
+
+        tiltDump.setPosition(0.6);
+        sleep(500);
     }
 }
