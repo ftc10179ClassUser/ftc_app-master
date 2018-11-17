@@ -79,10 +79,11 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
         wheelController.stopWheels();
         sleep(500);
-        frontLeft.setPower(0.5);
+        /*frontLeft.setPower(0.5);
         frontRight.setPower(-0.5);
         backLeft.setPower(0.5);
-        backRight.setPower(-0.5);
+        backRight.setPower(-0.5);*/
+        wheelController.moveXY(-1, 0);
 
         sleep(1000);
         wheelController.stopWheels();
@@ -91,10 +92,11 @@ public class SimpleAutonomousDepot extends LinearOpMode {
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
             if (diff >= 2.5){
-                frontLeft.setPower(-0.225);
+                /*frontLeft.setPower(-0.225);
                 frontRight.setPower(0.225);
                 backLeft.setPower(-0.25);
-                backRight.setPower(0.25);
+                backRight.setPower(0.25);*/
+                wheelController.moveXY(1, 0);
 
 
                 telemetry.update();
@@ -118,10 +120,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
         }
         telemetry.addData("ree", position);
         sleep(500);
-        frontLeft.setPower(0.25);
-        frontRight.setPower(-0.25);
-        backLeft.setPower(0.25);
-        backRight.setPower(-0.25);
+        wheelController.moveXY(-1, 0);
         sleep(1250);
         wheelController.stopWheels();
         sleep(500);

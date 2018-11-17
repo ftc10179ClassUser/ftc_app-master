@@ -19,6 +19,9 @@ public class WheelController {
     public TickRatio backLeftTick;
     public TickRatio backRightTick;
 
+    public final boolean hasStrafe = true;
+    public final boolean mecanum = true;
+
     public int leftEncoder() {
         return frontLeft.getCurrentPosition();
     }
