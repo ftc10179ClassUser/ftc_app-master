@@ -119,9 +119,6 @@ public class Teleop extends LinearOpMode {
             } else if (gamepad1.b) {
                 liftLock.setPosition(1);
             }
-
-            telemetry.update();
-
         }
     }
 }
