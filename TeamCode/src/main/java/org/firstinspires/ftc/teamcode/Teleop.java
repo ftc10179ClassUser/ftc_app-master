@@ -48,6 +48,8 @@ public class Teleop extends LinearOpMode {
         mineralBlocker = hardwareMap.servo.get("mineralBlocker");
         snorfler = hardwareMap.dcMotor.get("snorfler");
         colorSensor = hardwareMap.colorSensor.get("color");
+        liftLock.setPosition(0.4);
+        tiltDump.setPosition(0.075);
 
         //tiltLift.calibrate();
 
@@ -81,7 +83,7 @@ public class Teleop extends LinearOpMode {
             }
 
             if (Math.abs(gamepad2.left_stick_y) >= 0.05) {
-                mineralExtend.setPower(gamepad2.left_stick_y);
+                mineralExtend.setPower(-gamepad2.left_stick_y);
             } else {
                 mineralExtend.setPower(0);
             }
@@ -117,7 +119,7 @@ public class Teleop extends LinearOpMode {
             if (gamepad1.a) {
                 liftLock.setPosition(0);
             } else if (gamepad1.b) {
-                liftLock.setPosition(1);
+                liftLock.setPosition(0.4);
             }
         }
     }
