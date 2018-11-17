@@ -67,7 +67,7 @@ public class WheelController {
         frontLeft.setPower(speed);
         frontRight.setPower(-speed);
         backLeft.setPower(speed);
-        backLeft.setPower(-speed);
+        backRight.setPower(-speed);
     }
 
     public void stopWheels() {
