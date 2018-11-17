@@ -63,10 +63,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         sleep(1000);
 
 
-        frontLeft.setPower(0.5);
-        frontRight.setPower(-0.5);
-        backLeft.setPower(0.5);
-        backRight.setPower(-0.5);
+        wheelController.moveXY(-0.5,0);
 
         sleep(250);
         wheelController.stopWheels();
@@ -76,11 +73,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
 
         wheelController.stopWheels();
         sleep(500);
-        frontLeft.setPower(0.5);
-        frontRight.setPower(-0.5);
-        backLeft.setPower(0.5);
-        backRight.setPower(-0.5);
-
+        wheelController.moveXY(-0.5,0);
         sleep(1000);
         wheelController.stopWheels();
         while (getRuntime() <= 29 && !yeetle) {
@@ -88,14 +81,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
             if (diff >= 2.5){
-                frontLeft.setPower(-0.22);
-                frontRight.setPower(0.22);
-                backLeft.setPower(-0.25);
-                backRight.setPower(0.25);
-
-
-                telemetry.update();
-
+                wheelController.moveXY(0.22,0);
             } else {
                 yeetle = true;
             }
@@ -108,10 +94,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         }
 
         sleep(500);
-        frontLeft.setPower(0.25);
-        frontRight.setPower(-0.25);
-        backLeft.setPower(0.25);
-        backRight.setPower(-0.25);
+        wheelController.moveXY(-0.22,0);
         sleep(1250);
         wheelController.stopWheels();
         sleep(500);
