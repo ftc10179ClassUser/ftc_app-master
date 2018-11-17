@@ -39,7 +39,7 @@ public class WheelController {
 
     public void moveXY(double tx, double ty) {
         double x = -Range.clip(tx, -1, 1);
-        double y = Range.clip(ty, -1, 1);
+        double y = -Range.clip(ty, -1, 1);
 
 
         // The speed at which we will move the robot
@@ -55,10 +55,10 @@ public class WheelController {
         double v4 = r * Math.cos(robotAngle);
 
         // Finally, take the math we did for the speed of the wheels and actually set the wheel's speed
-        frontLeft.setPower(v1);
-        frontRight.setPower(v2);
-        backLeft.setPower(v3);
-        backRight.setPower(v4);
+        frontLeft.setPower(-v1);
+        frontRight.setPower(-v2);
+        backLeft.setPower(-v3);
+        backRight.setPower(-v4);
     }
 
     public void moveTurn(double tspeed) {
