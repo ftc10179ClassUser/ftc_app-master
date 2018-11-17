@@ -119,15 +119,6 @@ public class Teleop extends LinearOpMode {
             } else if (gamepad1.b) {
                 liftLock.setPosition(1);
             }
-            doublealpha = Double.valueOf(colorSensor.alpha());
-            doublered = Double.valueOf(colorSensor.red());
-            diff = doublealpha / doublered;
-            telemetry.addData("alpha:", colorSensor.alpha());
-            telemetry.addData("red:", colorSensor.red());
-            telemetry.addData("green:", colorSensor.green());
-            telemetry.addData("blue:", colorSensor.blue());
-            telemetry.addData("motor device name:", tiltLift.getDeviceName());
-            telemetry.addData("ratio", diff);
 
             telemetry.update();
 
