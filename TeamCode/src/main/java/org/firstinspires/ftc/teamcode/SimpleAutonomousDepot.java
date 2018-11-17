@@ -42,7 +42,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
         tiltLift.setDirection(DcMotorSimple.Direction.REVERSE);
         colorSensor = hardwareMap.colorSensor.get("color");
         liftLock.setPosition(0);
-        tiltDump.setPosition(0.075);
+        tiltDump.setPosition(0.05);
         mineralBlocker.setPosition(0.65);
 
         //tiltLift.setTargetPosition(7640);
