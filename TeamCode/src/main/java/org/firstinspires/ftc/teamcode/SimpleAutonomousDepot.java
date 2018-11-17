@@ -66,10 +66,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
         sleep(1000);
 
 
-        frontLeft.setPower(0.5);
-        frontRight.setPower(-0.5);
-        backLeft.setPower(0.5);
-        backRight.setPower(-0.5);
+        wheelController.moveXY(-0.5,0);
 
         sleep(250);
         wheelController.stopWheels();
