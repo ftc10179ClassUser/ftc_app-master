@@ -77,8 +77,8 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         sleep(1000);
         wheelController.stopWheels();
         while (getRuntime() <= 29 && !yeetle) {
-            doublealpha = Double.valueOf(colorSensor.alpha());
-            doublered = Double.valueOf(colorSensor.red());
+            doublealpha = colorSensor.alpha();
+            doublered = colorSensor.red();
             diff = doublealpha/doublered;
             if (diff >= 2.5){
                 wheelController.moveXY(0.22,0);
