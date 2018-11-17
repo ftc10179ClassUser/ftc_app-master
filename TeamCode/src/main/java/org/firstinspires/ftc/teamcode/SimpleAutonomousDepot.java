@@ -52,7 +52,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
 
         mineralTilter.setPower(0.3);
-        sleep(500);
+        sleep(450);
         mineralTilter.setPower(0);
         sleep(500);
         tiltLift.setPower(0.25);
@@ -75,7 +75,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
         wheelController.stopWheels();
 
         wheelController.moveXY(0,-0.5);
-        sleep(600);
+        sleep(650);
 
         wheelController.stopWheels();
         sleep(500);
@@ -90,7 +90,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
             doublealpha = Double.valueOf(colorSensor.alpha());
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
-            if (diff >= 2.5){
+            if (diff >= 2.6){
                 frontLeft.setPower(-0.225);
                 frontRight.setPower(0.225);
                 backLeft.setPower(-0.25);
@@ -103,9 +103,9 @@ public class SimpleAutonomousDepot extends LinearOpMode {
                 yeetle = true;
                 if(getRuntime() >= 11 && getRuntime() <= 14) {
                     position = 2;
-                } else if(getRuntime() >= 17 || getRuntime()<= 19) {
+                } else if(getRuntime() >= 17 && getRuntime()<= 19) {
                     position = 1;
-                } else if(getRuntime() >= 4 && getRuntime() <= 7) {
+                } else if(getRuntime() >= 4 && getRuntime() <= 9) {
                     position = 3;
                 }
             }
@@ -142,23 +142,28 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
         switch (position) {
             case 1:
-                /*frontLeft.setPower(0.5);
+                frontLeft.setPower(-0.5);
+                frontRight.setPower(0.5);
                 backLeft.setPower(-0.5);
-                frontRight.setPower(-0.5);
                 backRight.setPower(0.5);
-                sleep(2500);
-                break;*/
+                sleep(750);
+                wheelController.stopWheels();
+
+                break;
             case 2:
+
 
 
                 break;
             case 3:
-                /*frontLeft.setPower(0.5);
+                frontLeft.setPower(-0.5);
+                frontRight.setPower(0.5);
                 backLeft.setPower(-0.5);
-                frontRight.setPower(-0.5);
                 backRight.setPower(0.5);
-                sleep(2500);
-                break;*/
+                sleep(750);
+                wheelController.stopWheels();
+                break;
+
 
         }
         mineralTilter.setPower(0.25);

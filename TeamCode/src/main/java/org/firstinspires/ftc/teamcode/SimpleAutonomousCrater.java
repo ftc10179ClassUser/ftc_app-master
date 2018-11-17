@@ -72,7 +72,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
         wheelController.stopWheels();
 
         wheelController.moveXY(0,-0.5);
-        sleep(600);
+        sleep(650);
 
         wheelController.stopWheels();
         sleep(500);
@@ -87,9 +87,9 @@ public class SimpleAutonomousCrater extends LinearOpMode {
             doublealpha = Double.valueOf(colorSensor.alpha());
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
-            if (diff >= 2.5){
-                frontLeft.setPower(-0.22);
-                frontRight.setPower(0.22);
+            if (diff >= 2.6){
+                frontLeft.setPower(-0.225);
+                frontRight.setPower(0.225);
                 backLeft.setPower(-0.25);
                 backRight.setPower(0.25);
 
