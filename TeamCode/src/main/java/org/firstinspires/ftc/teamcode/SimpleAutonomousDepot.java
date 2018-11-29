@@ -52,7 +52,7 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
 
         mineralTilter.setPower(0.3);
-        sleep(450);
+        sleep(425);
         mineralTilter.setPower(0);
         sleep(500);
         tiltLift.setPower(0.25);
@@ -87,12 +87,12 @@ public class SimpleAutonomousDepot extends LinearOpMode {
         sleep(1000);
         wheelController.stopWheels();
         while (getRuntime() <= 29 && !yeetle) {
-            doublealpha = Double.valueOf(colorSensor.alpha());
-            doublered = Double.valueOf(colorSensor.red());
+            doublealpha = colorSensor.alpha();
+            doublered = colorSensor.red();
             diff = doublealpha/doublered;
-            if (diff >= 2.6){
-                frontLeft.setPower(-0.225);
-                frontRight.setPower(0.225);
+            if (diff >= 2.8){
+                frontLeft.setPower(-0.23);
+                frontRight.setPower(0.23);
                 backLeft.setPower(-0.25);
                 backRight.setPower(0.25);
 
@@ -101,12 +101,14 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
             } else {
                 yeetle = true;
-                if(getRuntime() >= 11 && getRuntime() <= 14) {
+                if(getRuntime() >= 9 && getRuntime() <= 14) {
                     position = 2;
-                } else if(getRuntime() >= 17 && getRuntime()<= 19) {
+                } else if(getRuntime() >= 15 && getRuntime()<= 18) {
                     position = 1;
-                } else if(getRuntime() >= 4 && getRuntime() <= 9) {
+                } else if(getRuntime() >= 4 && getRuntime() <= 10) {
                     position = 3;
+                } else {
+                    position = 4;
                 }
             }
 
@@ -136,18 +138,20 @@ public class SimpleAutonomousDepot extends LinearOpMode {
             case 3:
                 sleep(2500);
                 break;
+            case 4:
+                sleep(2500);
         }
 
         wheelController.stopWheels();
 
         switch (position) {
             case 1:
-                frontLeft.setPower(-0.5);
+                /*frontLeft.setPower(-0.5);
                 frontRight.setPower(0.5);
                 backLeft.setPower(-0.5);
                 backRight.setPower(0.5);
                 sleep(750);
-                wheelController.stopWheels();
+                wheelController.stopWheels();*/
 
                 break;
             case 2:
@@ -156,13 +160,13 @@ public class SimpleAutonomousDepot extends LinearOpMode {
 
                 break;
             case 3:
-                frontLeft.setPower(-0.5);
+               /* frontLeft.setPower(-0.5);
                 frontRight.setPower(0.5);
                 backLeft.setPower(-0.5);
                 backRight.setPower(0.5);
                 sleep(750);
                 wheelController.stopWheels();
-                break;
+                break;*/
 
 
         }

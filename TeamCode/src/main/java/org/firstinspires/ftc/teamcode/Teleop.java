@@ -50,6 +50,7 @@ public class Teleop extends LinearOpMode {
         colorSensor = hardwareMap.colorSensor.get("color");
         liftLock.setPosition(0.4);
         tiltDump.setPosition(0.075);
+        mineralBlocker.setPosition(0.5);
 
         //tiltLift.calibrate();
 

@@ -49,7 +49,7 @@ public class SimpleAutonomousCrater extends LinearOpMode {
 
 
         mineralTilter.setPower(0.3);
-        sleep(500);
+        sleep(425);
         mineralTilter.setPower(0);
         sleep(500);
         tiltLift.setPower(0.25);
@@ -87,9 +87,9 @@ public class SimpleAutonomousCrater extends LinearOpMode {
             doublealpha = Double.valueOf(colorSensor.alpha());
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
-            if (diff >= 2.6){
-                frontLeft.setPower(-0.225);
-                frontRight.setPower(0.225);
+            if (diff >= 2.8){
+                frontLeft.setPower(-0.23);
+                frontRight.setPower(0.23);
                 backLeft.setPower(-0.25);
                 backRight.setPower(0.25);
 
