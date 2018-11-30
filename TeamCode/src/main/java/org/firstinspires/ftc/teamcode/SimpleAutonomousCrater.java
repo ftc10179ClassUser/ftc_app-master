@@ -88,8 +88,8 @@ public class SimpleAutonomousCrater extends LinearOpMode {
             doublered = Double.valueOf(colorSensor.red());
             diff = doublealpha/doublered;
             if (diff >= 2.8){
-                frontLeft.setPower(-0.225);
-                frontRight.setPower(0.225);
+                frontLeft.setPower(-0.23);
+                frontRight.setPower(0.23);
                 backLeft.setPower(-0.25);
                 backRight.setPower(0.25);
 
